@@ -4,3 +4,5 @@ fuel/app/cache/*/*
 vendor/
 
 node_modules/
+
+\.vscode/
