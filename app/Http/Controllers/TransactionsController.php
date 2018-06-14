@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Transaction;
+use \Carbon\Carbon;
+
 
 class TransactionsController extends Controller
 {
@@ -13,7 +16,9 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        //
+        $trans = Transaction::with('representative')->get();
+        return response()->json($trans);
+
     }
 
     /**
@@ -34,8 +39,39 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id = $request->get('id');
+        if ($id == 0){
+            $item = new Transaction([
+                'representative_id' => $request->get('representative_id'),
+                'amount' => $request->get('amount'),
+                'due_date' => Carbon::parse($request->get('due_date')),
+                'customer_name' => $request->get('customer_name'),
+                'wtp' => $request->get('wtp'),
+                'notes' => $request->get('notes'),
+            ]);
+            if($item->save())
+            return response()->json('Successfully added');
+         else
+            return response()->json('Error saving data');
+        }else{
+            $mod = Transaction::find($id);
+            $mod->representative_id =$request->get('representative_id');
+            $mod->amount =$request->get('amount');
+            $mod->due_date = Carbon::parse($request->get('due_date'));
+            $mod->customer_name =$request->get('customer_name');
+            $mod->wtp =$request->get('wtp');
+            $mod->notes =$request->get('notes');
+            if($mod->save())
+                return response()->json('Successfully updated');
+            else
+               return response()->json('Error saving data');
+
+
+
+        }
     }
+// * id', 'representative_id','amount','due_date','customer_name',
+//'wtp','notes'];
 
     /**
      * Display the specified resource.
@@ -79,6 +115,9 @@ class TransactionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Transaction::destroy($id);
+        return response()->json('Successfully');
+
+
     }
 }

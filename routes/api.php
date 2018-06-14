@@ -18,4 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('representativeapi', 'RepresentativeapiController');
+Route::resource('transactionapi', 'TransactionsController');
+Route::get('/representativescbx', 'RepresentativescbxController@index')->name('representativescbx');
+
+//http://localhost/api/transactionapi
+
 
