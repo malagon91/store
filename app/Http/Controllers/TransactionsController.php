@@ -16,7 +16,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        $trans = Transaction::with('representative')->get();
+        $trans = Transaction::with('representative')->paginate(2);
         return response()->json($trans);
 
     }

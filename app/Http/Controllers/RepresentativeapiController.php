@@ -16,7 +16,7 @@ class RepresentativeapiController extends Controller
      */
     public function index()
     {
-        $rep = Representative::all();
+        $rep = Representative::paginate(2);
         return response()->json($rep);
     }
 
